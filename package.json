@@ -1,0 +1,26 @@
+{
+	"name": "geobot",
+	"version": "0.0.1",
+	"description": "Geoguessr bot for Discord.",
+	"main": "src/app.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"dev": "nodemon src/app.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/linusromland/Geobot.git"
+	},
+	"author": "Linus Romland",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/linusromland/Geobot/issues"
+	},
+	"homepage": "https://github.com/linusromland/Geobot#readme",
+	"dependencies": {
+		"discord.js": "^14.5.0"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.20"
+	}
+}
