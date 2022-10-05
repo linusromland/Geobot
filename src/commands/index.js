@@ -4,6 +4,10 @@ const help = require('./help');
 
 const commands = [
 	{
+		...geoguessr.declare,
+		execute: geoguessr.execute
+	},
+	{
 		...help.declare,
 		execute: help.execute
 	}
