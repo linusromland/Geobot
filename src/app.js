@@ -6,7 +6,7 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 const { executeCommand, commands } = require('./commands');
 
 // Variables
-const TOKEN = 'ODg2OTMyNzI1MDQ5NzQ1NTE5.G8whsP.LQZYoeCAYaGv7cJDNpmmJaHUtLlPoVhySF__qU';
+const TOKEN = process.env.TOKEN;
 
 const rest = new REST({ version: '10' }).setToken(TOKEN);
 
