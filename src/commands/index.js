@@ -3,6 +3,10 @@ const geoguessr = require('./geoguessr');
 const help = require('./help');
 
 const commands = [
+	{
+		...help.declare,
+		execute: help.execute
+	}
 ];
 
 async function executeCommand(interaction) {
