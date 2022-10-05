@@ -2,13 +2,14 @@
 const { ModalBuilder, TextInputBuilder, ActionRowBuilder, TextInputStyle } = require('discord.js');
 
 // Internal Dependencies
-const maps = require('../data/maps.json');
+const { createMatch, getMapInformation } = require('../geoguessr');
 
 // Variables
 const declare = {
 	name: 'geoguessr',
 	description: 'Create a Geoguessr match!'
 };
+const challengeURL = 'https://www.geoguessr.com/challenge/';
 
 async function execute(interaction) {
 	console.log(`Received ${interaction.isModalSubmit() ? 'Modal Submission' : 'Command'} interaction from ${interaction.user.tag} for ${declare.name}`);
@@ -38,7 +39,24 @@ async function handleModalSubmission(interaction) {
 	const mapInput = interaction.fields.getTextInputValue('mapInput');
 	const timeInput = interaction.fields.getTextInputValue('timeInput');
 
-	console.log(`New challenge created with map ${mapInput} and time ${timeInput}`);
+	const mapInformation = await getMapInformation(mapInput);
+
+	if (!mapInformation) {
+		await interaction.reply({ content: 'Invalid map!', ephemeral: true });
+		return;
+	}
+
+	const match = await createMatch(mapInformation.id, timeInput);
+
+	if (!match) {
+		await interaction.reply({ content: 'Something went wrong!', ephemeral: true });
+		return;
+	}
+
+	if (match.message == 'NoSuchMap') {
+		await interaction.reply({ content: 'Invalid map!', ephemeral: true });
+		return;
+	}
 
 	await interaction.reply({
 		content: 'Challenge created!',
@@ -47,7 +65,7 @@ async function handleModalSubmission(interaction) {
 
 	//Send message to channel to all users
 	await interaction.channel.send({
-		content: `@everyone New challenge created with map ${mapInput} and time ${timeInput}`
+		content: `New challenge created with map ${mapInformation.name} and time ${timeInput}s at ${challengeURL}${match.token}`
 	});
 }
 
