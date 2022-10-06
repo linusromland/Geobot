@@ -3,21 +3,19 @@ const { ModalBuilder, TextInputBuilder, ActionRowBuilder, TextInputStyle } = req
 
 // Internal Dependencies
 const { createMatch, getMapInformation } = require('../geoguessr');
+const getChallengeBlock = require('../utils/getChallengeBlock');
 
 // Variables
 const declare = {
 	name: 'geoguessr',
 	description: 'Create a Geoguessr match!'
 };
-const challengeURL = 'https://www.geoguessr.com/challenge/';
 
 async function execute(interaction) {
-	console.log(
-		`Received ${interaction.isModalSubmit() ? 'Modal Submission' : 'Command'} interaction from ${
-			interaction.user.tag
-		} for ${declare.name}`
-	);
-	if (interaction.isModalSubmit()) return await handleModalSubmission(interaction);
+	if (interaction.isModalSubmit()) {
+		console.log(`Received Modal Submission interaction from ${interaction.user.tag} for ${declare.name}`);
+		return await handleModalSubmission(interaction);
+	}
 
 	//Create and reply with a modal to choose map and time
 	const modal = new ModalBuilder().setCustomId(declare.name).setTitle('Create new Geoguessr challenge!');
@@ -103,7 +101,7 @@ async function handleModalSubmission(interaction) {
 
 	//Send message to channel to all users
 	await interaction.channel.send({
-		content: `New challenge created with map ${mapInformation.name} and time ${timeInput}s at ${challengeURL}${match.data.token}`
+		embeds: [getChallengeBlock(mapInformation, timeInput, match.data.token, interaction.user.id)]
 	});
 }
 

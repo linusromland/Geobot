@@ -1,12 +1,12 @@
 // Internal Dependencies
 const { createMatch, getRandomMap } = require('../geoguessr');
+const getChallengeBlock = require('../utils/getChallengeBlock');
 
 // Variables
 const declare = {
 	name: 'random',
 	description: 'Create a Geoguessr match with random map and time!'
 };
-const challengeURL = 'https://www.geoguessr.com/challenge/';
 
 async function execute(interaction) {
 	const map = await getRandomMap();
@@ -34,7 +34,7 @@ async function execute(interaction) {
 
 	//Send message to channel to all users
 	await interaction.channel.send({
-		content: `New challenge created with map ${map.name} and time ${time}s at ${challengeURL}${match.data.token}`
+		embeds: [getChallengeBlock(map, time, match.data.token, interaction.user.id)]
 	});
 }
 
