@@ -46,7 +46,7 @@ async function handleModalSubmission(interaction) {
 		return;
 	}
 
-	const match = await createMatch(mapInformation.id, timeInput);
+	const match = await createMatch(mapInput, timeInput);
 
 	if (!match) {
 		await interaction.reply({ content: 'Something went wrong!', ephemeral: true });
@@ -65,7 +65,7 @@ async function handleModalSubmission(interaction) {
 
 	//Send message to channel to all users
 	await interaction.channel.send({
-		content: `New challenge created with map ${mapInformation.name} and time ${timeInput}s at ${challengeURL}${match.token}`
+		content: `New challenge created with map ${mapInformation.name} and time ${timeInput}s at ${challengeURL}${match.data.token}`
 	});
 }
 

@@ -1,11 +1,10 @@
 // Internal Dependencies
-const login = require('./login');
+const api = require('./api');
 
 async function getMapInformation(map) {
 	if (!map) return null;
-	const authenticated = await login();
 
-	const request = await authenticated.get(`/maps/${map}`);
+	const request = await api.get(`/maps/${map}`);
 
 	return request.data;
 }

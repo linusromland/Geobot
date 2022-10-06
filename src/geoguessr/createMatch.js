@@ -1,5 +1,5 @@
 // Internal Dependencies
-const login = require('./login');
+const api = require('./api');
 
 async function createMatch(
 	map = 'world',
@@ -11,17 +11,22 @@ async function createMatch(
 	}
 ) {
 	console.log(`Creating match with map ${map} and time limit ${timeLimit}`);
-	const authenticated = await login();
 
-	const request = await authenticated.post('/v3/games', {
-		map,
-		timeLimit,
-		options
-	});
+	const request = await api.post(
+		'/v3/challenges',
+		{
+			map,
+			timeLimit,
+			...options
+		},
+		{
+			headers: {
+				Cookie: `devicetoken=${process.env.GEOGUESSR_DEVICE_TOKEN};_ncfa=${process.env.GEOGUESSR_NCF_TOKEN}`
+			}
+		}
+	);
 
-	console.log(request);
-
-	return request.data;
+	return request;
 }
 
 module.exports = createMatch;
