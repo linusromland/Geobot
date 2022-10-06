@@ -12,19 +12,11 @@ async function createMatch(
 ) {
 	console.log(`Creating match with map ${map} and time limit ${timeLimit}`);
 
-	const request = await api.post(
-		'/v3/challenges',
-		{
-			map,
-			timeLimit,
-			...options
-		},
-		{
-			headers: {
-				Cookie: `devicetoken=${process.env.GEOGUESSR_DEVICE_TOKEN};_ncfa=${process.env.GEOGUESSR_NCF_TOKEN}`
-			}
-		}
-	);
+	const request = await api.post('/v3/challenges', {
+		map,
+		timeLimit,
+		...options
+	});
 
 	return request;
 }
