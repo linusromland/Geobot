@@ -1,11 +1,16 @@
 // Commands import
 const geoguessr = require('./geoguessr');
+const random = require('./random');
 const help = require('./help');
 
 const commands = [
 	{
 		...geoguessr.declare,
 		execute: geoguessr.execute
+	},
+	{
+		...random.declare,
+		execute: random.execute
 	},
 	{
 		...help.declare,
