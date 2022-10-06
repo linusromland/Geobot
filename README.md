@@ -9,12 +9,10 @@
 
 </div>
 
-<br />
 <div align="center">
   <h3 align="center">Geobot</h3>
-
   <p align="center">
-    A Geoguessr bot for Discord to easily create a challenge right from discord!!
+    A Geoguessr bot for Discord to easily create a challenge right from Discord!
     <br />
     <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
     ·
