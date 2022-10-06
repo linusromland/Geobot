@@ -32,7 +32,9 @@ client.on('ready', () => {
 });
 
 client.on('interactionCreate', async (interaction) => {
-	console.log(`Received interaction ${interaction.id} from ${interaction.user.tag} with command ${interaction.commandName}`);
+	console.log(
+		`Received interaction ${interaction.id} from ${interaction.user.tag} with command ${interaction.commandName}`
+	);
 	if (!interaction.isChatInputCommand() && !interaction.isModalSubmit()) return;
 
 	await executeCommand(interaction);
