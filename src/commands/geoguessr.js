@@ -57,6 +57,15 @@ async function handleModalSubmission(interaction) {
 	const mapInput = interaction.fields.getTextInputValue('mapInput');
 	const timeInput = interaction.fields.getTextInputValue('timeInput');
 
+	//Check if time is a number
+	if (isNaN(timeInput)) {
+		await interaction.reply({
+			content: 'Time must be a number!',
+			ephemeral: true
+		});
+		return;
+	}
+
 	const mapInformation = await getMapInformation(mapInput);
 
 	if (!mapInformation) {
@@ -83,6 +92,14 @@ async function handleModalSubmission(interaction) {
 		content: 'Challenge created!',
 		ephemeral: true
 	});
+
+	if (!match.data.token) {
+		await interaction.reply({
+			content: 'Something went wrong!',
+			ephemeral: true
+		});
+		return;
+	}
 
 	//Send message to channel to all users
 	await interaction.channel.send({
