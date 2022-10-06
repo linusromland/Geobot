@@ -36,9 +36,9 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#⭐️-contributing">Contributing</a></li>
-    <li><a href="#⚠️-license">License</a></li>
-    <li><a href="#📝-contact">Contact</a></li>
+    <li><a href="#%EF%B8%8F-contributing">Contributing</a></li>
+    <li><a href="#%EF%B8%8F-license">License</a></li>
+    <li><a href="#-contact">Contact</a></li>
   </ol>
 </details>
 
