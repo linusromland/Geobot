@@ -19,7 +19,11 @@ const commands = [
 ];
 
 async function executeCommand(interaction) {
-	const command = commands.find((command) => command.name === (interaction.commandName ?? interaction.customId));
+	const command = commands.find(
+		(command) =>
+			command.name ===
+			(interaction.commandName ?? (interaction.message && interaction.message.interaction.commandName))
+	);
 
 	if (!command) return;
 

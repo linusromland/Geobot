@@ -1,9 +1,11 @@
 // External Dependencies
-const { ModalBuilder, TextInputBuilder, ActionRowBuilder, TextInputStyle } = require('discord.js');
+const { SelectMenuBuilder, ButtonBuilder } = require('discord.js');
 
 // Internal Dependencies
 const { createMatch, getMapInformation } = require('../geoguessr');
 const getChallengeBlock = require('../utils/getChallengeBlock');
+const times = require('../data/times.json');
+const { userModel } = require('../models');
 
 // Variables
 const declare = {
@@ -12,97 +14,186 @@ const declare = {
 };
 
 async function execute(interaction) {
-	if (interaction.isModalSubmit()) {
-		console.log(`Received Modal Submission interaction from ${interaction.user.tag} for ${declare.name}`);
-		return await handleModalSubmission(interaction);
+	if (interaction.isSelectMenu()) {
+		console.log(`Received select change interaction from ${interaction.user.tag} for ${declare.name}`);
+		return await handleSelectChange(interaction);
+	} else if (interaction.isButton()) {
+		console.log(`Received button click interaction from ${interaction.user.tag} for ${declare.name}`);
+		return await handleButtonClick(interaction);
 	}
 
-	//Create and reply with a modal to choose map and time
-	const modal = new ModalBuilder().setCustomId(declare.name).setTitle('Create new Geoguessr challenge!');
+	let user = await userModel.findOne({ discordId: interaction.user.id });
+	if (!user) {
+		user = await userModel.create({
+			discordId: interaction.user.id
+		});
+	}
 
-	// Create the select menu components
-	const mapInput = new TextInputBuilder()
+	if (user.mapCreation) {
+		return await interaction.reply({
+			content: 'You already have a map in creation!\nUse `/cancelCreate` to cancel it.',
+			ephemeral: true
+		});
+	} else {
+		user.mapCreation = {
+			noMoving: false,
+			noRotating: false,
+			noZooming: false
+		};
+		user.save();
+	}
+
+	const mapInput = new SelectMenuBuilder()
 		.setCustomId('mapInput')
-		.setLabel('Map (id or name)')
-		.setStyle(TextInputStyle.Short)
-		.setValue('world')
-		.setMinLength(1)
-		.setMaxLength(100)
-		.setPlaceholder('Choose a map');
+		.setPlaceholder('Select a map')
+		.addOptions(
+			user.maps.map((map) => ({
+				label: map.name,
+				description: map.description,
+				value: map.mapId,
+				emoji: map.emoji
+			}))
+		);
 
-	// Create the text input components
-	const timeInput = new TextInputBuilder()
+	const timeInput = new SelectMenuBuilder()
 		.setCustomId('timeInput')
-		.setLabel('Time (in seconds)')
-		.setStyle(TextInputStyle.Short)
-		.setValue('60')
-		.setMaxLength(3)
-		.setMinLength(1)
-		.setPlaceholder('Choose a time');
+		.setPlaceholder('Select a time limit')
+		.addOptions(times);
 
-	const mapAction = new ActionRowBuilder().addComponents(mapInput);
-	const timeAction = new ActionRowBuilder().addComponents(timeInput);
+	const gameSettings = new SelectMenuBuilder()
+		.setCustomId('gameSettings')
+		.setPlaceholder('Game settings')
+		.setMinValues(0)
+		.setMaxValues(3)
+		.addOptions([
+			{
+				label: 'No moving',
+				description: 'Forbid moving.',
+				value: 'noMoving',
+				emoji: '🚫'
+			},
+			{
+				label: 'No rotating',
+				description: 'Forbid rotating.',
+				value: 'noRotating',
+				emoji: '🚫'
+			},
+			{
+				label: 'No zooming',
+				description: 'Forbid zooming.',
+				value: 'noZooming',
+				emoji: '🚫'
+			}
+		]);
 
-	// Add inputs to the modal
-	modal.addComponents(mapAction, timeAction);
+	const createButton = new ButtonBuilder().setCustomId('create').setLabel('Create challenge').setStyle(1);
 
-	await interaction.showModal(modal);
-}
-
-async function handleModalSubmission(interaction) {
-	if (interaction.customId !== declare.name) return;
-
-	const mapInput = interaction.fields.getTextInputValue('mapInput');
-	const timeInput = interaction.fields.getTextInputValue('timeInput');
-
-	//Check if time is a number
-	if (isNaN(timeInput)) {
-		await interaction.reply({
-			content: 'Time must be a number!',
-			ephemeral: true
-		});
-		return;
-	}
-
-	const mapInformation = await getMapInformation(mapInput);
-
-	if (!mapInformation) {
-		await interaction.reply({ content: 'Invalid map!', ephemeral: true });
-		return;
-	}
-
-	const match = await createMatch(mapInput, timeInput);
-
-	if (!match) {
-		await interaction.reply({
-			content: 'Something went wrong!',
-			ephemeral: true
-		});
-		return;
-	}
-
-	if (match.message == 'NoSuchMap') {
-		await interaction.reply({ content: 'Invalid map!', ephemeral: true });
-		return;
-	}
-
+	//send message
 	await interaction.reply({
-		content: 'Challenge created!',
+		content: '**Create a challenge!**\nMissing a map? Use `/addMap` to add one!',
+		components: [
+			{
+				type: 1,
+				components: [mapInput]
+			},
+			{
+				type: 1,
+				components: [timeInput]
+			},
+			{
+				type: 1,
+				components: [gameSettings]
+			},
+			{
+				type: 1,
+				components: [createButton]
+			}
+		],
 		ephemeral: true
 	});
+}
 
-	if (!match.data.token) {
-		await interaction.reply({
+async function handleSelectChange(interaction) {
+	const action = interaction.customId;
+
+	const user = await userModel.findOne({ discordId: interaction.user.id });
+
+	if (!user) return;
+
+	const values = interaction.values;
+
+	switch (action) {
+		case 'mapInput':
+			user.mapCreation = {
+				...user.mapCreation,
+				mapId: values[0]
+			};
+			break;
+		case 'timeInput':
+			user.mapCreation = {
+				...user.mapCreation,
+				time: values[0]
+			};
+			break;
+		case 'gameSettings':
+			user.mapCreation = {
+				...user.mapCreation,
+				noMoving: values.includes('noMoving'),
+				noRotating: values.includes('noRotating'),
+				noZooming: values.includes('noZooming')
+			};
+			break;
+
+		default:
+			break;
+	}
+	user.save();
+
+	//Acknowledge the interaction
+	await interaction.deferUpdate();
+}
+
+async function handleButtonClick(interaction) {
+	const user = await userModel.findOne({ discordId: interaction.user.id });
+
+	if (!user) return;
+
+	if (!user.mapCreation || !user.mapCreation.mapId || !user.mapCreation.time) return await interaction.deferUpdate();
+
+	const map = await getMapInformation(user.mapCreation.mapId);
+
+	if (!map) {
+		await interaction.update({ content: 'Invalid map!', ephemeral: true, components: [] });
+		return;
+	}
+
+	const match = await createMatch(user.mapCreation.mapId, user.mapCreation.time);
+
+	if (!match) {
+		await interaction.update({
 			content: 'Something went wrong!',
-			ephemeral: true
+			ephemeral: true,
+			components: []
 		});
 		return;
 	}
 
-	//Send message to channel to all users
-	await interaction.channel.send({
-		embeds: [getChallengeBlock(mapInformation, timeInput, match.data.token, interaction.user.id)]
+	const time = user.mapCreation.time;
+
+	user.mapCreation = null;
+	user.save();
+
+	//Send message to channel to all users without interaction
+	const challengeBlockEmbed = getChallengeBlock(map, time, match.data.token, interaction.user.id);
+
+	//remove the interaction message
+	await interaction.update({
+		content: 'Challenge created!',
+		components: []
 	});
+
+	//send the challenge block
+	await interaction.channel.send({ embeds: [challengeBlockEmbed] });
 }
 
 module.exports = {
