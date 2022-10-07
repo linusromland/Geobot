@@ -14,9 +14,6 @@
   <p align="center">
     A Geoguessr bot for Discord to easily create a challenge right from Discord!
     <br />
-    <a href="https://github.com/linusromland/Geobot/issues/new?labels=bug">Report Bug</a>
-    ·
-    <a href="https://github.com/linusromland/Geobot/issues/new?labels=enhancement">Request Feature</a>
   </p>
 </div>
 
@@ -117,8 +114,12 @@ Don't forget to give the project a star! Thanks again!
 
 ## 📝 Contact
 
-If you find issues please report them on the [issue](https://github.com/linusromland/Geobot/issues) section of the repository.
+If you find issues please add a [Bug Report].
 
-If you have any features requests or other improvements to the project they are more then welcome. Add a [issue](https://github.com/linusromland/Geobot/issues) on the repository and i will check them out!
+If you have any features requests or other improvements to the project they are more then welcome. Add a [Feature Report] on the repository and i will check them out!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- VARIABLES -->
+[Bug Report]: https://github.com/linusromland/Geobot/issues/new?labels=bug
+[Feature Report]: https://github.com/linusromland/Geobot/issues/new?labels=enhancement
