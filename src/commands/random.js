@@ -10,7 +10,7 @@ const declare = {
 
 async function execute(interaction) {
 	const map = await getRandomMap();
-	const time = randomIntFromInterval(30, 300);
+	const time = randomIntFromInterval(10, 180);
 
 	const match = await createMatch(map.id, time);
 
