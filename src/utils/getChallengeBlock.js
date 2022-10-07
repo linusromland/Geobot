@@ -12,8 +12,6 @@ function getChallengeBlock({ name, images }, timeInSec, matchToken, userId) {
 
 	const matchURL = challengeURL + matchToken;
 
-	console.log(imageURL + (images.backgroundLarge ?? defaultImage));
-
 	const embed = new EmbedBuilder()
 		.setTitle('New Geoguessr challenge!')
 		.setDescription(`Map: ${name}\nTime: ${prettyTime}\nCreated by <@${userId}>`)
