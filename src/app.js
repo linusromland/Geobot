@@ -4,6 +4,7 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 // Internal Dependencies
 const { executeCommand, commands } = require('./commands');
+const { connectToMongo } = require('./connections/mongo');
 
 // Variables
 const TOKEN = process.env.TOKEN;
@@ -12,6 +13,9 @@ const rest = new REST({ version: '10' }).setToken(TOKEN);
 
 (async () => {
 	try {
+		//Connect to MongoDB
+		await connectToMongo();
+
 		console.log('Started refreshing application (/) commands.');
 
 		await rest.put(Routes.applicationCommands('886932725049745519'), {
@@ -25,19 +29,16 @@ const rest = new REST({ version: '10' }).setToken(TOKEN);
 	} catch (error) {
 		console.error(error);
 	}
+
+	client.on('ready', () => {
+		console.log(`Logged in as ${client.user.tag}!`);
+	});
+
+	client.on('interactionCreate', async (interaction) => {
+		if (!interaction.isChatInputCommand() && !interaction.isSelectMenu() && !interaction.isButton()) return;
+
+		await executeCommand(interaction);
+	});
+
+	client.login(TOKEN);
 })();
-
-client.on('ready', () => {
-	console.log(`Logged in as ${client.user.tag}!`);
-});
-
-client.on('interactionCreate', async (interaction) => {
-	console.log(
-		`Received interaction ${interaction.id} from ${interaction.user.tag} with command ${interaction.commandName}`
-	);
-	if (!interaction.isChatInputCommand() && !interaction.isModalSubmit()) return;
-
-	await executeCommand(interaction);
-});
-
-client.login(TOKEN);
