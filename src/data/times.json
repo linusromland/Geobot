@@ -1,0 +1,37 @@
+[
+	{
+		"label": "No time limit",
+		"value": "0",
+		"emoji": "⏰"
+	},
+	{
+		"label": "10 seconds",
+		"value": "10",
+		"emoji": "⏰"
+	},
+	{
+		"label": "30 seconds",
+		"value": "30",
+		"emoji": "⏰"
+	},
+	{
+		"label": "1 minute",
+		"value": "60",
+		"emoji": "⏰"
+	},
+	{
+		"label": "2 minutes",
+		"value": "120",
+		"emoji": "⏰"
+	},
+	{
+		"label": "5 minutes",
+		"value": "300",
+		"emoji": "⏰"
+	},
+	{
+		"label": "10 minutes",
+		"value": "600",
+		"emoji": "⏰"
+	}
+]

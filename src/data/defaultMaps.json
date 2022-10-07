@@ -1,0 +1,44 @@
+[
+	{
+		"name": "World",
+		"description": "The world map",
+		"mapId": "world",
+		"emoji": "🌎"
+	},
+	{
+		"name": "European Union",
+		"description": "The European Union map",
+		"mapId": "european-union",
+		"emoji": "🇪🇺"
+	},
+	{
+		"name": "United States",
+		"description": "The United States map",
+		"mapId": "usa",
+		"emoji": "🇺🇸"
+	},
+	{
+		"name": "Canada",
+		"description": "The Canada map",
+		"mapId": "canada",
+		"emoji": "🇨🇦"
+	},
+	{
+		"name": "Australia",
+		"description": "The Australia map",
+		"mapId": "australia",
+		"emoji": "🇦🇺"
+	},
+	{
+		"name": "Brazil",
+		"description": "The Brazil map",
+		"mapId": "brazil",
+		"emoji": "🇧🇷"
+	},
+	{
+		"name": "Sweden",
+		"description": "The Sweden map",
+		"mapId": "sweden",
+		"emoji": "🇸🇪"
+	}
+]
