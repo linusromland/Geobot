@@ -2,6 +2,7 @@
 const geoguessr = require('./geoguessr');
 const random = require('./random');
 const help = require('./help');
+const cancelCreate = require('./cancelCreate');
 
 const commands = [
 	{
@@ -15,6 +16,10 @@ const commands = [
 	{
 		...help.declare,
 		execute: help.execute
+	},
+	{
+		...cancelCreate.declare,
+		execute: cancelCreate.execute
 	}
 ];
 

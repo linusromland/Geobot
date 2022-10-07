@@ -31,7 +31,7 @@ async function execute(interaction) {
 
 	if (user.mapCreation) {
 		return await interaction.reply({
-			content: 'You already have a map in creation!\nUse `/cancelCreate` to cancel it.',
+			content: 'You already have a map in creation!\nUse `/cancelcreate` to cancel it.',
 			ephemeral: true
 		});
 	} else {
