@@ -14,9 +14,9 @@
   <p align="center">
     A Geoguessr bot for Discord to easily create a challenge right from Discord!
     <br />
-    <a href="https://github.com/linusromland/Geobot/issues/new">Report Bug</a>
+    <a href="https://github.com/linusromland/Geobot/issues/new?labels=bug">Report Bug</a>
     ·
-    <a href="https://github.com/linusromland/Geobot/issues/new">Request Feature</a>
+    <a href="https://github.com/linusromland/Geobot/issues/new?labels=enhancement">Request Feature</a>
   </p>
 </div>
 
