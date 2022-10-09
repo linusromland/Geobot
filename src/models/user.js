@@ -44,6 +44,9 @@ const userSchema = new Schema(
 		mapCreation: {
 			type: Object
 		},
+		recurringCreation: {
+			type: Object
+		},
 		removeMap: {
 			type: String
 		}
