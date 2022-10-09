@@ -43,6 +43,9 @@ const userSchema = new Schema(
 		],
 		mapCreation: {
 			type: Object
+		},
+		removeMap: {
+			type: String
 		}
 	},
 	{

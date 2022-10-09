@@ -2,8 +2,8 @@
 const geoguessr = require('./geoguessr');
 const random = require('./random');
 const help = require('./help');
-const cancelCreate = require('./cancelCreate');
 const addMap = require('./addMap');
+const removeMap = require('./removeMap');
 
 const commands = [
 	{
@@ -19,12 +19,12 @@ const commands = [
 		execute: help.execute
 	},
 	{
-		...cancelCreate.declare,
-		execute: cancelCreate.execute
-	},
-	{
 		...addMap.declare,
 		execute: addMap.execute
+	},
+	{
+		...removeMap.declare,
+		execute: removeMap.execute
 	}
 ];
 
