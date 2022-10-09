@@ -44,9 +44,9 @@ async function modalSubmit(interaction) {
 	}
 
 	user.maps.push({
-		mapId: mapInformation.id,
+		mapId: mapInformation.slug,
 		name: mapInformation.name,
-		description: mapInformation.description,
+		description: mapInformation.description || 'No description',
 		emoji: '🗺️'
 	});
 	user.save();
