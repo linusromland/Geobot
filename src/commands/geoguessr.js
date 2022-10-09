@@ -5,6 +5,7 @@ const { SelectMenuBuilder, ButtonBuilder } = require('discord.js');
 const { createMatch, getMapInformation } = require('../geoguessr');
 const getChallengeBlock = require('../utils/getChallengeBlock');
 const times = require('../data/times.json');
+const defaultMaps = require('../data/defaultMaps.json');
 const { userModel } = require('../models');
 
 // Variables
@@ -29,25 +30,20 @@ async function execute(interaction) {
 		});
 	}
 
-	if (user.mapCreation) {
-		return await interaction.reply({
-			content: 'You already have a map in creation!\nUse `/cancelcreate` to cancel it.',
-			ephemeral: true
-		});
-	} else {
-		user.mapCreation = {
-			noMoving: false,
-			noRotating: false,
-			noZooming: false
-		};
-		user.save();
-	}
+	user.mapCreation = {
+		noMoving: false,
+		noRotating: false,
+		noZooming: false
+	};
+	user.save();
+
+	const maps = [...defaultMaps, ...user.maps];
 
 	const mapInput = new SelectMenuBuilder()
 		.setCustomId('mapInput')
 		.setPlaceholder('Select a map')
 		.addOptions(
-			user.maps.map((map) => ({
+			maps.map((map) => ({
 				label: map.name,
 				description: map.description.length > 100 ? `${map.description.substring(0, 97)}...` : map.description,
 				value: map.mapId,
