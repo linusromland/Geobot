@@ -4,6 +4,7 @@ const random = require('./random');
 const help = require('./help');
 const addMap = require('./addMap');
 const removeMap = require('./removeMap');
+const listmaps = require('./listMaps');
 
 const commands = [
 	{
@@ -25,6 +26,10 @@ const commands = [
 	{
 		...removeMap.declare,
 		execute: removeMap.execute
+	},
+	{
+		...listmaps.declare,
+		execute: listmaps.execute
 	}
 ];
 
