@@ -4,6 +4,7 @@ const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = req
 // Internal Dependencies
 const { getMapInformation } = require('../geoguessr');
 const { userModel } = require('../models');
+const defaultMaps = require('../data/defaultMaps.json');
 
 const declare = {
 	name: 'addmap',
@@ -41,6 +42,10 @@ async function modalSubmit(interaction) {
 		user = await userModel.create({
 			discordId: interaction.user.id
 		});
+	}
+
+	if ([...user.maps, ...defaultMaps].some((map) => map.mapId === mapInformation.slug)) {
+		return await interaction.reply({ content: 'You already have this map!', ephemeral: true });
 	}
 
 	user.maps.push({
