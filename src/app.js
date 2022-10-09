@@ -7,7 +7,7 @@ const { executeCommand, commands } = require('./commands');
 const { connectToMongo } = require('./connections/mongo');
 
 // Variables
-const TOKEN = process.env.TOKEN;
+const { TOKEN, APPLICATION_ID } = process.env;
 
 const rest = new REST({ version: '10' }).setToken(TOKEN);
 
@@ -18,7 +18,7 @@ const rest = new REST({ version: '10' }).setToken(TOKEN);
 
 		console.log('Started refreshing application (/) commands.');
 
-		await rest.put(Routes.applicationCommands('886932725049745519'), {
+		await rest.put(Routes.applicationCommands(APPLICATION_ID), {
 			body: commands.map((command) => ({
 				name: command.name,
 				description: command.description
