@@ -45,7 +45,8 @@ async function executeCommand(interaction) {
 	if (!command) return;
 
 	try {
-		await command.execute(interaction);
+		if (command.includeCommands) await command.execute(interaction, commands);
+		else await command.execute(interaction);
 	} catch (error) {
 		console.error(error);
 		await interaction.reply({
