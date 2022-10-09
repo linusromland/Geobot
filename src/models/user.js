@@ -2,7 +2,6 @@
 const mongoose = require('mongoose');
 
 // Internal Dependencies
-const defaultMaps = require('../data/defaultMaps.json');
 const { Schema } = mongoose;
 
 const userSchema = new Schema(
@@ -50,12 +49,5 @@ const userSchema = new Schema(
 		timestamps: true
 	}
 );
-
-userSchema.pre('save', function (next) {
-	if (this.isNew) {
-		this.maps = defaultMaps;
-	}
-	next();
-});
 
 module.exports = mongoose.model('User', userSchema);
