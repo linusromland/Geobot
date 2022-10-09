@@ -3,6 +3,7 @@ const geoguessr = require('./geoguessr');
 const random = require('./random');
 const help = require('./help');
 const cancelCreate = require('./cancelCreate');
+const addMap = require('./addMap');
 
 const commands = [
 	{
@@ -20,6 +21,10 @@ const commands = [
 	{
 		...cancelCreate.declare,
 		execute: cancelCreate.execute
+	},
+	{
+		...addMap.declare,
+		execute: addMap.execute
 	}
 ];
 
@@ -27,7 +32,9 @@ async function executeCommand(interaction) {
 	const command = commands.find(
 		(command) =>
 			command.name ===
-			(interaction.commandName ?? (interaction.message && interaction.message.interaction.commandName))
+			(interaction.commandName ??
+				(interaction.message && interaction.message.interaction.commandName) ??
+				interaction.customId)
 	);
 
 	if (!command) return;

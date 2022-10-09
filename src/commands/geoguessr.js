@@ -49,7 +49,7 @@ async function execute(interaction) {
 		.addOptions(
 			user.maps.map((map) => ({
 				label: map.name,
-				description: map.description,
+				description: map.description.length > 100 ? `${map.description.substring(0, 97)}...` : map.description,
 				value: map.mapId,
 				emoji: map.emoji
 			}))

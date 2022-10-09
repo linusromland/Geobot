@@ -35,7 +35,13 @@ const rest = new REST({ version: '10' }).setToken(TOKEN);
 	});
 
 	client.on('interactionCreate', async (interaction) => {
-		if (!interaction.isChatInputCommand() && !interaction.isSelectMenu() && !interaction.isButton()) return;
+		if (
+			!interaction.isChatInputCommand() &&
+			!interaction.isSelectMenu() &&
+			!interaction.isButton() &&
+			!interaction.isModalSubmit()
+		)
+			return;
 
 		await executeCommand(interaction);
 	});
