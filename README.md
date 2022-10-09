@@ -44,12 +44,12 @@
 
 | Command      | Description                                        |
 | ------------ | -------------------------------------------------- |
-| `/geoguessr` | Create a Geoguessr match!                          |
-| `/random `   | Create a Geoguessr match with random map and time! |
-| `/help`      | Get help with the bot!                             |
 | `/addmap`    | Add a map to the database!                         |
-| `/removemap` | Remove a map from the database!                    |
+| `/geoguessr` | Create a Geoguessr match!                          |
+| `/help`      | Get help with the bot!                             |
 | `/listmaps`  | List all maps in the database!                     |
+| `/random `   | Create a Geoguessr match with random map and time! |
+| `/removemap` | Remove a map from the database!                    |
 
 ## About The Project
 

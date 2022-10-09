@@ -1,35 +1,35 @@
 // Commands import
-const geoguessr = require('./geoguessr');
-const random = require('./random');
-const help = require('./help');
 const addMap = require('./addMap');
-const removeMap = require('./removeMap');
+const geoguessr = require('./geoguessr');
+const help = require('./help');
 const listmaps = require('./listMaps');
+const random = require('./random');
+const removeMap = require('./removeMap');
 
 const commands = [
 	{
-		...geoguessr.declare,
-		execute: geoguessr.execute
+		...addMap.declare,
+		execute: addMap.execute
 	},
 	{
-		...random.declare,
-		execute: random.execute
+		...geoguessr.declare,
+		execute: geoguessr.execute
 	},
 	{
 		...help.declare,
 		execute: help.execute
 	},
 	{
-		...addMap.declare,
-		execute: addMap.execute
+		...listmaps.declare,
+		execute: listmaps.execute
+	},
+	{
+		...random.declare,
+		execute: random.execute
 	},
 	{
 		...removeMap.declare,
 		execute: removeMap.execute
-	},
-	{
-		...listmaps.declare,
-		execute: listmaps.execute
 	}
 ];
 
