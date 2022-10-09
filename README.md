@@ -20,6 +20,7 @@
 <details>
   <summary>Table of Contents</summary>
   <ol>
+    <li><a href="#%EF%B8%8F-commands">Commands</a></li>
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
@@ -38,6 +39,17 @@
     <li><a href="#-contact">Contact</a></li>
   </ol>
 </details>
+
+## ⚙️ Commands
+
+| Command      | Description                                        |
+| ------------ | -------------------------------------------------- |
+| `/geoguessr` | Create a Geoguessr match!                          |
+| `/random `   | Create a Geoguessr match with random map and time! |
+| `/help`      | Get help with the bot!                             |
+| `/addmap`    | Add a map to the database!                         |
+| `/removemap` | Remove a map from the database!                    |
+| `/listmaps`  | List all maps in the database!                     |
 
 ## About The Project
 
@@ -121,5 +133,6 @@ If you have any features requests or other improvements to the project they are 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- VARIABLES -->
-[Bug Report]: https://github.com/linusromland/Geobot/issues/new?labels=bug
-[Feature Report]: https://github.com/linusromland/Geobot/issues/new?labels=enhancement
+
+[bug report]: https://github.com/linusromland/Geobot/issues/new?labels=bug
+[feature report]: https://github.com/linusromland/Geobot/issues/new?labels=enhancement
