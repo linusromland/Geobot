@@ -6,7 +6,7 @@ const { userModel } = require('../models');
 
 const declare = {
 	name: 'removemap',
-	description: 'Remove a map!'
+	description: 'Remove a map from the database!'
 };
 
 async function execute(interaction) {

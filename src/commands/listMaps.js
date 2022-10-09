@@ -7,7 +7,7 @@ const defaultMaps = require('../data/defaultMaps.json');
 
 const declare = {
 	name: 'listmaps',
-	description: 'List all your maps!'
+	description: 'List all maps in the database!'
 };
 
 async function execute(interaction) {
