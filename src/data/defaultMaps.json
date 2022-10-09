@@ -1,43 +1,31 @@
 [
 	{
 		"name": "World",
-		"description": "The world map",
+		"description": "Embark on a journey that takes you all over the world. From the most desolate roads in Australia to the busy, bustling streets of New York City.",
 		"mapId": "world",
 		"emoji": "🌎"
 	},
 	{
 		"name": "European Union",
-		"description": "The European Union map",
+		"description": "One Union, 28 countries, 500 million inhabitants: how well do you know your EU? From the emerald isle to the Black Sea, from the land of a thousand lakes to the jewel of the Mediterranean, challenge yourself and your friends to expand your horizons and further discover the beauty of Europe.",
 		"mapId": "european-union",
 		"emoji": "🇪🇺"
 	},
 	{
 		"name": "United States",
-		"description": "The United States map",
+		"description": "Travel across the vast spaces of the land of the free and home of the brave. From the hot deserts of the south to the great forests of the north, from the Atlantic to the Pacific. 50 states of challenging locations awaits you!",
 		"mapId": "usa",
 		"emoji": "🇺🇸"
 	},
 	{
-		"name": "Canada",
-		"description": "The Canada map",
-		"mapId": "canada",
-		"emoji": "🇨🇦"
-	},
-	{
-		"name": "Australia",
-		"description": "The Australia map",
-		"mapId": "australia",
-		"emoji": "🇦🇺"
-	},
-	{
-		"name": "Brazil",
-		"description": "The Brazil map",
-		"mapId": "brazil",
-		"emoji": "🇧🇷"
+		"name": "United Kingdom",
+		"description": "The British Isles have been inhabited for over 30,000 years and been involved in everything from the Roman conquest to the British Invasion. It's also the poster child of fish'n chips, pubs and the weather condition commonly known as rain. God Save the Queen!",
+		"mapId": "uk",
+		"emoji": "🇬🇧"
 	},
 	{
 		"name": "Sweden",
-		"description": "The Sweden map",
+		"description": "The Nobel Prize, IKEA, meatballs and cold winters - Sweden is famous for a lot of different things. Aside from being the third largest country in Europe by size and one the most sparsely populated it's also where GeoGuessr was born and raised. Welcome to Scandinavia!",
 		"mapId": "sweden",
 		"emoji": "🇸🇪"
 	}
