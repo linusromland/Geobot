@@ -6,6 +6,7 @@ const listmaps = require('./listMaps');
 const random = require('./random');
 const registerRecurring = require('./registerRecurring');
 const removeMap = require('./removeMap');
+const removeRecurring = require('./removeRecurring');
 
 const commands = [
 	{
@@ -35,6 +36,10 @@ const commands = [
 	{
 		...removeMap.declare,
 		execute: removeMap.execute
+	},
+	{
+		...removeRecurring.declare,
+		execute: removeRecurring.execute
 	}
 ];
 
