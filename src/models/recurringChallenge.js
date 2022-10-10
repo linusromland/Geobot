@@ -32,14 +32,31 @@ const recurringChallengeSchema = new Schema(
 			type: Number,
 			required: true
 		},
-		gameSettings: {
-			type: Object,
+		forbidMoving: {
+			type: Boolean,
+			required: true
+		},
+		forbidRotating: {
+			type: Boolean,
+			required: true
+		},
+		forbidZooming: {
+			type: Boolean,
 			required: true
 		},
 		recurringFrequency: {
 			type: String,
 			required: true,
 			enum: ['daily', 'weekly']
+		},
+		recurringDay: {
+			type: String,
+			required: false,
+			enum: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+		},
+		recurringHour: {
+			type: String,
+			required: true
 		}
 	},
 	{
