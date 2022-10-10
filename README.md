@@ -42,18 +42,21 @@
 
 ## ⚙️ Commands
 
-| Command      | Description                                        |
-| ------------ | -------------------------------------------------- |
-| `/addmap`    | Add a map to the database!                         |
-| `/geoguessr` | Create a Geoguessr match!                          |
-| `/help`      | Get help with the bot!                             |
-| `/listmaps`  | List all maps in the database!                     |
-| `/random `   | Create a Geoguessr match with random map and time! |
-| `/removemap` | Remove a map from the database!                    |
+| Command              | Description                                        |
+| -------------------- | -------------------------------------------------- |
+| `/addmap`            | Add a map to the database!                         |
+| `/geoguessr`         | Create a Geoguessr match!                          |
+| `/help`              | Get help with the bot!                             |
+| `/listmaps`          | List all maps in the database!                     |
+| `/random `           | Create a Geoguessr match with random map and time! |
+| `/registerrecurring` | Register a recurring match!                        |
+| `/removemap`         | Remove a map from the database!                    |
+| `/removerecurring`   | Remove a recurring match from the database!        |
 
 ## About The Project
 
 This project is a Discord.js bot to easily create a Geoguessr challenge, right from discord.
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Built With
