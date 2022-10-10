@@ -1,10 +1,12 @@
 // External Dependencies
 const { SelectMenuBuilder, ButtonBuilder } = require('discord.js');
+const pretty = require('pretty-time');
 
 // Internal Dependencies
 const times = require('../data/times.json');
-const { userModel } = require('../models');
+const { recurringChallengeModel, userModel } = require('../models');
 const defaultMaps = require('../data/defaultMaps.json');
+const { getMapInformation } = require('../geoguessr');
 
 // Variables
 const declare = {
@@ -71,19 +73,19 @@ async function execute(interaction) {
 			{
 				label: 'No moving',
 				description: 'Forbid moving.',
-				value: 'noMoving',
+				value: 'forbidMoving',
 				emoji: '🚫'
 			},
 			{
 				label: 'No rotating',
 				description: 'Forbid rotating.',
-				value: 'noRotating',
+				value: 'forbidRotating',
 				emoji: '🚫'
 			},
 			{
 				label: 'No zooming',
 				description: 'Forbid zooming.',
-				value: 'noZooming',
+				value: 'forbidZooming',
 				emoji: '🚫'
 			}
 		]);
@@ -123,19 +125,35 @@ async function handleSelectChange(interaction) {
 	} else if (interaction.customId == 'timeInput') {
 		user.recurringCreation.timeLimit = interaction.values[0];
 	} else if (interaction.customId == 'gameSettings') {
-		user.recurringCreation.gameSettings = interaction.values;
+		user.recurringCreation = {
+			...user.recurringCreation,
+			forbidMoving: interaction.values.includes('forbidMoving'),
+			forbidRotating: interaction.values.includes('forbidRotating'),
+			forbidZooming: interaction.values.includes('forbidZooming')
+		};
+	} else if (interaction.customId == 'recurringFrequencyInput') {
+		user.recurringCreation.recurringFrequency = interaction.values[0];
+	} else if (interaction.customId == 'hourInput') {
+		user.recurringCreation.hour = interaction.values[0];
+	} else if (interaction.customId == 'weeklyDayInput') {
+		user.recurringCreation.weeklyDay = interaction.values[0];
 	}
 
-	await user.save();
+	await userModel.updateOne({ discordId: interaction.user.id }, user);
 
 	//Acknowledge the interaction
 	await interaction.deferUpdate();
 }
 
 async function handleButtonClick(interaction) {
+	const user = await userModel.findOne({ id: interaction.user.id });
+	const map = await getMapInformation(user.recurringCreation.mapId);
+
 	if (interaction.customId === 'continue') {
-		const timePeriodInput = new SelectMenuBuilder()
-			.setCustomId('timePeriodInput')
+		if (!user.recurringCreation.mapId || !user.recurringCreation.timeLimit) return await interaction.deferUpdate();
+
+		const recurringFrequencyInput = new SelectMenuBuilder()
+			.setCustomId('recurringFrequencyInput')
 			.setPlaceholder('Select a time period')
 			.addOptions([
 				{
@@ -148,7 +166,7 @@ async function handleButtonClick(interaction) {
 					label: 'Weekly',
 					description: 'Weekly challenge',
 					value: 'weekly',
-					emoji: '📆'
+					emoji: '📅'
 				}
 			]);
 
@@ -353,12 +371,16 @@ async function handleButtonClick(interaction) {
 		const createButton = new ButtonBuilder().setCustomId('create').setLabel('Create').setStyle(1);
 
 		await interaction.update({
-			content:
-				'**Create a recurring challenge!**\nMap choosen: Sweden\nTime choosen: 30s\nGame settings: Moving, Zooming, Panning',
+			content: `**Create a recurring challenge!**\nMap choosen: ${map.name}\nTime choosen: ${pretty(
+				[user.recurringCreation.timeLimit, 0],
+				's'
+			)}\nGame Settings: ${user.recurringCreation.forbidMoving ? 'No moving' : 'Moving'}, ${
+				user.recurringCreation.forbidRotating ? 'no rotating' : 'rotating'
+			}, ${user.recurringCreation.forbidZooming ? 'no zooming' : 'zooming'}`,
 			components: [
 				{
 					type: 1,
-					components: [timePeriodInput]
+					components: [recurringFrequencyInput]
 				},
 				{
 					type: 1,
@@ -374,7 +396,56 @@ async function handleButtonClick(interaction) {
 				}
 			]
 		});
+	} else if (interaction.customId === 'create') {
+		if (
+			!user ||
+			!user.recurringCreation ||
+			!user.recurringCreation.discordServerId ||
+			!user.recurringCreation.discordChannelId ||
+			!user.recurringCreation.mapId ||
+			!user.recurringCreation.timeLimit ||
+			!user.recurringCreation.recurringFrequency ||
+			!user.recurringCreation.hour ||
+			(user.recurringCreation.recurringFrequency == 'weekly' && !user.recurringCreation.weeklyDay)
+		) {
+			//Acknowledge the interaction
+			return await interaction.deferUpdate();
+		}
+
+		await recurringChallengeModel.updateOne(
+			{ discordServerId: user.recurringCreation.discordServerId },
+			{
+				discordChannelId: user.recurringCreation.discordChannelId,
+				mapId: user.recurringCreation.mapId,
+				timeLimit: user.recurringCreation.timeLimit,
+				forbidMoving: user.recurringCreation.forbidMoving || false,
+				forbidZooming: user.recurringCreation.forbidZooming || false,
+				forbidRotating: user.recurringCreation.forbidRotating || false,
+				recurringFrequency: user.recurringCreation.recurringFrequency,
+				recurringHour: user.recurringCreation.hour,
+				recurringDay: user.recurringCreation.weeklyDay?.toString()
+			},
+			{ upsert: true }
+		);
+
+		await interaction.update({
+			content: `**Recurring challenge created!**\nMap choosen: ${map.name}\nTime choosen: ${pretty(
+				[user.recurringCreation.timeLimit, 0],
+				's'
+			)}\nGame Settings: ${user.recurringCreation.forbidMoving ? 'No moving' : 'Moving'}, ${
+				user.recurringCreation.forbidRotating ? 'no rotating' : 'rotating'
+			}, ${user.recurringCreation.forbidZooming ? 'no zooming' : 'zooming'}\nRecurring frequency: ${
+				user.recurringCreation.recurringFrequency == 'daily'
+					? 'Daily at ' + user.recurringCreation.hour
+					: capitalizeFirstLetter(user.recurringCreation.weeklyDay) + 's at ' + user.recurringCreation.hour
+			}`,
+			components: []
+		});
 	}
+}
+
+function capitalizeFirstLetter(string) {
+	return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 module.exports = {
