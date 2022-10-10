@@ -4,7 +4,9 @@ const geoguessr = require('./geoguessr');
 const help = require('./help');
 const listmaps = require('./listMaps');
 const random = require('./random');
+const registerRecurring = require('./registerRecurring');
 const removeMap = require('./removeMap');
+const removeRecurring = require('./removeRecurring');
 
 const commands = [
 	{
@@ -28,8 +30,16 @@ const commands = [
 		execute: random.execute
 	},
 	{
+		...registerRecurring.declare,
+		execute: registerRecurring.execute
+	},
+	{
 		...removeMap.declare,
 		execute: removeMap.execute
+	},
+	{
+		...removeRecurring.declare,
+		execute: removeRecurring.execute
 	}
 ];
 

@@ -163,7 +163,13 @@ async function handleButtonClick(interaction) {
 		return;
 	}
 
-	const match = await createMatch(user.mapCreation.mapId, user.mapCreation.time);
+	const match = await createMatch(
+		user.mapCreation.mapId,
+		user.mapCreation.time,
+		user.mapCreation.noMoving,
+		user.mapCreation.noRotating,
+		user.mapCreation.noZooming
+	);
 
 	if (!match) {
 		await interaction.update({
