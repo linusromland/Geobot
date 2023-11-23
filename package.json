@@ -1,6 +1,6 @@
 {
 	"name": "geobot",
-	"version": "0.0.1",
+	"version": "1.0.0",
 	"description": "Geoguessr bot for Discord.",
 	"main": "src/app.js",
 	"scripts": {
